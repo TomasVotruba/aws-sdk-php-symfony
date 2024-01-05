@@ -99,21 +99,16 @@ final class AwsExtensionTest extends TestCase
         $extension = new AwsExtension;
         $config = ['credentials' => '@aws_sdk'];
 
-        $containerBuilder = $this->createMock(ContainerBuilder::class);
-        $containerBuilder->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
-        $containerBuilder->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk';
-            }));
-
+        $containerBuilder = new ContainerBuilder();
         $extension->load([$config], $containerBuilder);
+
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $credentialsArgument = $awsSdkDefinition->getArguments()[0]['credentials'];
+
+        $this->assertInstanceOf(Reference::class, $credentialsArgument);
+
+        /** @var Reference $credentialsArgument */
+        $this->assertSame('aws_sdk', (string) $credentialsArgument);
     }
 
     /**
