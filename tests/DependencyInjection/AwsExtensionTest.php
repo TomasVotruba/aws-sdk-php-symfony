@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AwsExtensionTest extends TestCase
+final class AwsExtensionTest extends TestCase
 {
     /**
      * @var AppKernel
@@ -24,7 +24,7 @@ class AwsExtensionTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
@@ -70,30 +70,25 @@ class AwsExtensionTest extends TestCase
      */
     public function extension_should_escape_strings_that_begin_with_at_sign()
     {
-        $extension = new AwsExtension;
+        $awsExtension = new AwsExtension;
         $config = ['credentials' => [
             'key' => '@@key',
             'secret' => '@@secret'
         ]];
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
-            ->getMock();
-        $container->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] === [
-                        'key' => '@key',
-                        'secret' => '@secret'
-                    ];
-            }));
 
-        $extension->load([$config], $container);
+        $containerBuilder = new ContainerBuilder();
+
+        $awsExtension->load([$config], $containerBuilder);
+
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $credentialsArgument = $awsSdkDefinition->getArguments()[0]['credentials'];
+
+        $this->assertSame([
+            'key' => '@key',
+            'secret' => '@secret'
+        ], $credentialsArgument);
+
+
     }
 
     /**
@@ -103,23 +98,17 @@ class AwsExtensionTest extends TestCase
     {
         $extension = new AwsExtension;
         $config = ['credentials' => '@aws_sdk'];
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
-            ->getMock();
-        $container->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk';
-            }));
 
-        $extension->load([$config], $container);
+        $containerBuilder = new ContainerBuilder();
+        $extension->load([$config], $containerBuilder);
+
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $credentialsArgument = $awsSdkDefinition->getArguments()[0]['credentials'];
+
+        $this->assertInstanceOf(Reference::class, $credentialsArgument);
+
+        /** @var Reference $credentialsArgument */
+        $this->assertSame('aws_sdk', (string) $credentialsArgument);
     }
 
     /**
@@ -180,40 +169,23 @@ class AwsExtensionTest extends TestCase
             'ua_append' => 'dev',
             'validate' => true,
         ];
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
-            ->getMock();
-        $container->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk'
-                    && isset($arg['debug'])
-                    && (bool) $arg['debug'] === true
-                    && isset($arg['stats'])
-                    && (bool) $arg['stats'] === true
-                    && isset($arg['retries'])
-                    && (integer) $arg['retries'] === 5
-                    && isset($arg['endpoint'])
-                    && (string) $arg['endpoint'] === 'http://localhost:8000'
-                    && isset($arg['validate'])
-                    && (bool) $arg['validate'] === true
-                    && isset($arg['endpoint_discovery']['enabled'])
-                    && isset($arg['endpoint_discovery']['cache_limit'])
-                    && (bool) $arg['endpoint_discovery']['enabled'] === true
-                    && (integer) $arg['endpoint_discovery']['cache_limit'] === 1000
-                    && isset($arg['S3']['version'])
-                    && (string) $arg['S3']['version'] === '2006-03-01'
-                ;
-            }));
 
-        $extension->load([$config, $configDev], $container);
+        $containerBuilder = new ContainerBuilder();
+
+        $extension->load([$config, $configDev], $containerBuilder);
+
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $awsSdkConfiguration = $awsSdkDefinition->getArguments()[0];
+
+        $this->assertSame(true, $awsSdkConfiguration['validate']);
+        $this->assertSame('http://localhost:8000', $awsSdkConfiguration['endpoint']);
+        $this->assertSame(5, $awsSdkConfiguration['retries']);
+        $this->assertTrue($awsSdkConfiguration['stats']);
+        $this->assertTrue($awsSdkConfiguration['debug']);
+
+        $this->assertSame('2006-03-01', $awsSdkConfiguration['S3']['version']);
+        $this->assertSame(1000, $awsSdkConfiguration['endpoint_discovery']['cache_limit']);
+        $this->assertTrue($awsSdkConfiguration['endpoint_discovery']['enabled']);
     }
 
     /**
@@ -229,12 +201,11 @@ class AwsExtensionTest extends TestCase
         $configDev = [
             'foo' => 'baz'
         ];
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
-            ->getMock();
+
+        $containerMock = $this->createMock(ContainerBuilder::class);
 
         try {
-            $extension->load([$config, $configDev], $container);
+            $extension->load([$config, $configDev], $containerMock);
             $this->fail('Should have thrown an Error or RuntimeException');
         } catch (\Exception $e) {
             $this->assertTrue($e instanceof \RuntimeException);

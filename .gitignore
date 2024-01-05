@@ -1,5 +1,13 @@
+# IDE
 /.idea/
 /*.iml
-/composer.phar
-/composer.lock
+
+# composer
+composer.lock
 /vendor/
+
+# Symfony cache
+/var/
+
+# PHPUnit cache
+.phpunit.result.cache
