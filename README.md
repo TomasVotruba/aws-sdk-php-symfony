@@ -13,20 +13,13 @@ Jump To:
 
 ## Getting Started
 
-### Installation
+### Install
 
-The AWS bundle can be installed via [Composer](http://getcomposer.org) by
-requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`:
-
-```json
-{
-    "require": {
-        "aws/aws-sdk-php-symfony": "~2.0"
-    }
-}
+```bash
+composer require tomasvotruba/aws-sdk-php-symfony
 ```
 
-and adding an instance of `Aws\Symfony\AwsBundle` to your application's kernel:
+and add `Aws\Symfony\AwsBundle` to the Kernel:
 
 ```php
 class AppKernel extends Kernel
@@ -115,7 +108,8 @@ aws_sdk | Aws\Sdk
 The services made available depends on which version of the SDK is installed. To
 view a full list, run the following command from your application's root
 directory:
-```
+
+```bash
 php bin/console debug:container aws
 ```
 
