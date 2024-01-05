@@ -21,7 +21,8 @@
         "phpunit/phpunit": "^10.5",
         "symfony/framework-bundle": "^6.0|^7.0",
         "symfony/yaml": "^6.0|^7.0",
-        "symplify/easy-coding-standard": "^12.1"
+        "symplify/easy-coding-standard": "^12.1",
+        "rector/rector": "*"
     },
     "autoload": {
         "psr-4": {
