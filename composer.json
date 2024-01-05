@@ -22,7 +22,8 @@
         "symfony/framework-bundle": "^6.0|^7.0",
         "symfony/yaml": "^6.0|^7.0",
         "symplify/easy-coding-standard": "^12.1",
-        "rector/rector": "^0.18.13"
+        "rector/rector": "^0.18.13",
+        "phpstan/phpstan": "^1.10"
     },
     "autoload": {
         "psr-4": {
@@ -40,6 +41,7 @@
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
-        "rector": "vendor/bin/rector process --dry-run --ansi"
+        "rector": "vendor/bin/rector process --dry-run --ansi",
+        "phpstan": "vendor/bin/phpstan analyse --ansi"
     }
 }

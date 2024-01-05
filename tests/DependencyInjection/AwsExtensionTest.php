@@ -134,7 +134,6 @@ final class AwsExtensionTest extends TestCase
             ],
             'profile' => 'prod',
             'region' => 'us-west-2',
-            'retries' => 5,
             'scheme' => 'http',
             'signature_version' => 'v4',
             'ua_append' => [
