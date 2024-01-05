@@ -170,40 +170,22 @@ final class AwsExtensionTest extends TestCase
             'validate' => true,
         ];
 
-        $containerMock = $this->createMock(ContainerBuilder::class);
+        $containerBuilder = new ContainerBuilder();
 
-        $containerMock->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
+        $extension->load([$config, $configDev], $containerBuilder);
 
-        $containerMock->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk'
-                    && isset($arg['debug'])
-                    && (bool) $arg['debug'] === true
-                    && isset($arg['stats'])
-                    && (bool) $arg['stats'] === true
-                    && isset($arg['retries'])
-                    && (integer) $arg['retries'] === 5
-                    && isset($arg['endpoint'])
-                    && (string) $arg['endpoint'] === 'http://localhost:8000'
-                    && isset($arg['validate'])
-                    && (bool) $arg['validate'] === true
-                    && isset($arg['endpoint_discovery']['enabled'])
-                    && isset($arg['endpoint_discovery']['cache_limit'])
-                    && (bool) $arg['endpoint_discovery']['enabled'] === true
-                    && (integer) $arg['endpoint_discovery']['cache_limit'] === 1000
-                    && isset($arg['S3']['version'])
-                    && (string) $arg['S3']['version'] === '2006-03-01'
-                ;
-            }));
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $awsSdkConfiguration = $awsSdkDefinition->getArguments()[0];
 
-        $extension->load([$config, $configDev], $containerMock);
+        $this->assertSame(true, $awsSdkConfiguration['validate']);
+        $this->assertSame('http://localhost:8000', $awsSdkConfiguration['endpoint']);
+        $this->assertSame(5, $awsSdkConfiguration['retries']);
+        $this->assertTrue($awsSdkConfiguration['stats']);
+        $this->assertTrue($awsSdkConfiguration['debug']);
+
+        $this->assertSame('2006-03-01', $awsSdkConfiguration['S3']['version']);
+        $this->assertSame(1000, $awsSdkConfiguration['endpoint_discovery']['cache_limit']);
+        $this->assertTrue($awsSdkConfiguration['endpoint_discovery']['enabled']);
     }
 
     /**
