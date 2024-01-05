@@ -31,7 +31,7 @@ and adding an instance of `Aws\Symfony\AwsBundle` to your application's kernel:
 ```php
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return [
             ...

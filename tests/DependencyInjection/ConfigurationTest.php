@@ -39,7 +39,7 @@ class ConfigurationTest extends TestCase
         $this->assertNotInstanceOf(DynamoDbClient::class, $testService->getCodeDeployClient());
     }
 
-    public function formatProvider()
+    public static function formatProvider(): array
     {
         return [
             ['yml'],
