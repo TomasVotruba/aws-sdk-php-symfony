@@ -51,7 +51,6 @@ final class AwsExtensionTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services() {
         $testService = $this->container->get('test_service');
