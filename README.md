@@ -1,7 +1,7 @@
 # AWS Service Provider for Symfony
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
-[![Total Downloads](https://img.shields.io/packagist/dt/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
+[![Latest Stable Version](https://img.shields.io/packagist/v/tomasvotruba/aws-sdk-php-symfony.svg)](https://packagist.org/packages/tomasvotruba/aws-sdk-php-symfony)
+[![Total Downloads](https://img.shields.io/packagist/dt/tomasvotruba/aws-sdk-php-symfony.svg)](https://packagist.org/packages/tomasvotruba/aws-sdk-php-symfony)
 
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
 
@@ -58,7 +58,7 @@ This syntax means that temporary credentials will be automatically retrieved
 from the EC2 instance's metadata server. It's also the preferred technique for
 providing credentials to applications running on that specific context.
 
-Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
+Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
 #### Sample YML Configuration
 
@@ -123,7 +123,7 @@ Please use these community resources for getting help. We use the GitHub issues 
 * Ask a question on [StackOverflow](https://stackoverflow.com/) and tag it with [`aws-php-sdk`](http://stackoverflow.com/questions/tagged/aws-php-sdk)
 * Come join the AWS SDK for PHP [gitter](https://gitter.im/aws/aws-sdk-php)
 * Open a support ticket with [AWS Support](https://console.aws.amazon.com/support/home/)
-* If it turns out that you may have found a bug, please [open an issue](https://github.com/aws/aws-sdk-php-symfony/issues/new/choose)
+* If it turns out that you may have found a bug, please [open an issue](https://github.com/tomasvotruba/aws-sdk-php-symfony/issues/new/choose)
 
 This SDK implements AWS service APIs. For general issues regarding the AWS services and their limitations, you may also take a look at the [Amazon Web Services Discussion Forums](https://forums.aws.amazon.com/).
 
