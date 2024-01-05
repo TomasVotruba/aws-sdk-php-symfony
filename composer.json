@@ -33,8 +33,8 @@
         "psr-4": {
             "Aws\\Symfony\\": "tests/"
         },
-        "classmap": [
-            "tests/fixtures"
+        "files": [
+            "tests/fixtures/AppKernel.php"
         ]
     }
 }
