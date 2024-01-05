@@ -75,11 +75,11 @@ class AwsExtension extends Extension
                 $this->inflateServicesInConfig($value);
             }
 
-            if (is_string($value) && 0 === strpos($value, '@')) {
+            if (is_string($value) && strpos($value, '@') === 0) {
                 // this is either a service reference or a string meant to
                 // start with an '@' symbol. In any case, lop off the first '@'
                 $value = substr($value, 1);
-                if (0 !== strpos($value, '@')) {
+                if (strpos($value, '@') !== 0) {
                     // this is a service reference, not a string literal
                     $value = new Reference($value);
                 }

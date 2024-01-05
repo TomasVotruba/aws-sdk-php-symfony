@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigurationTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         (new Filesystem())
             ->remove(implode(DIRECTORY_SEPARATOR, [
@@ -23,12 +23,11 @@ class ConfigurationTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider formatProvider
      *
      * @param string $format
      */
-    public function container_should_compile_and_load($format)
+    public function testContainerShouldCompileAndLoad($format)
     {
         $kernel = new AppKernel('test', true, $format);
         $kernel->boot();

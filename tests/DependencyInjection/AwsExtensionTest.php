@@ -24,7 +24,7 @@ final class AwsExtensionTest extends TestCase
      */
     protected $container;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
@@ -32,10 +32,7 @@ final class AwsExtensionTest extends TestCase
         $this->container = $this->kernel->getContainer();
     }
 
-    /**
-     * @test
-     */
-    public function sdk_config_should_be_passed_directly_to_the_constructor_and_resolved_by_the_sdk()
+    public function testSdkConfigShouldBePassedDirectlyToTheConstructorAndResolvedByTheSdk()
     {
         $config = $this->kernel->getTestConfig()['aws'];
         $s3Region = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
@@ -49,10 +46,7 @@ final class AwsExtensionTest extends TestCase
         $this->assertSame($codeDeployRegion, $testService->getCodeDeployClient()->getRegion());
     }
 
-    /**
-     * @test
-     */
-    public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services()
+    public function testAllWebServicesInSdkManifestShouldBeAccessibleAsContainerServices()
     {
         $testService = $this->container->get('test_service');
 
@@ -65,10 +59,7 @@ final class AwsExtensionTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function extension_should_escape_strings_that_begin_with_at_sign()
+    public function testExtensionShouldEscapeStringsThatBeginWithAtSign()
     {
         $awsExtension = new AwsExtension();
         $config = [
@@ -91,10 +82,7 @@ final class AwsExtensionTest extends TestCase
         ], $credentialsArgument);
     }
 
-    /**
-     * @test
-     */
-    public function extension_should_expand_service_references()
+    public function testExtensionShouldExpandServiceReferences()
     {
         $extension = new AwsExtension();
         $config = [
@@ -113,10 +101,7 @@ final class AwsExtensionTest extends TestCase
         $this->assertSame('aws_sdk', (string) $credentialsArgument);
     }
 
-    /**
-     * @test
-     */
-    public function extension_should_validate_and_merge_configs()
+    public function testExtensionShouldValidateAndMergeConfigs()
     {
         putenv('AWS_MERGE_CONFIG=true');
         $extension = new AwsExtension();
@@ -190,10 +175,7 @@ final class AwsExtensionTest extends TestCase
         $this->assertTrue($awsSdkConfiguration['endpoint_discovery']['enabled']);
     }
 
-    /**
-     * @test
-     */
-    public function extension_should_error_merging_unknown_config_options()
+    public function testExtensionShouldErrorMergingUnknownConfigOptions()
     {
         putenv('AWS_MERGE_CONFIG=true');
         $extension = new AwsExtension();
