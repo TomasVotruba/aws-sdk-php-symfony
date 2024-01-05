@@ -5,14 +5,9 @@
 
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
 
-Jump To:
+<br>
 
-* [Getting Started](#getting-started)
-* [More Resources](#resources)
-
-## Getting Started
-
-### Install
+## Install
 
 ```bash
 composer require tomasvotruba/aws-sdk-php-symfony
@@ -34,7 +29,9 @@ class AppKernel extends Kernel
 }
 ```
 
-### Configuration
+<br>
+
+## Configuration
 
 By default, configuration is handled by the SDK rather than by the bundle, and
 no validation is performed at compile time. Full documentation of the
@@ -59,7 +56,9 @@ providing credentials to applications running on that specific context.
 
 Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/tomasvotruba/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
-#### Sample YML Configuration
+<br>
+
+### Sample YML Configuration
 
 The sample configuration which can be placed in `app/config/config.yml` file.
 
@@ -90,7 +89,10 @@ services:
             - a-different-fake-secret
 ```
 
-### Usage
+
+<br>
+
+## Usage
 
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of
 each AWS client object as services to your symfony application. They are name
@@ -112,13 +114,4 @@ directory:
 php bin/console debug:container aws
 ```
 
-Full documentation on each of the services listed can be found in the [SDK API
-docs](http://docs.aws.amazon.com/aws-sdk-php/v3/api/).
-
-## Resources
-
-* [AWS SDK for PHP on Github](http://github.com/aws/aws-sdk-php)
-* [AWS SDK for PHP website](http://aws.amazon.com/sdkforphp/)
-* [AWS on Packagist](https://packagist.org/packages/aws)
-* [License](http://aws.amazon.com/apache2.0/)
-* [Symfony website](http://symfony.com/)
+Full documentation on each of the services listed can be found in the [SDK API docs](http://docs.aws.amazon.com/aws-sdk-php/v3/api/).
