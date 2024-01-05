@@ -37,9 +37,9 @@ final class AwsExtensionTest extends TestCase
      */
     public function sdk_config_should_be_passed_directly_to_the_constructor_and_resolved_by_the_sdk()
     {
-        $config           = $this->kernel->getTestConfig()['aws'];
-        $s3Region         = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
-        $lambdaRegion     = isset($config['Lambda']['region']) ? $config['Lambda']['region'] : $config['region'];
+        $config = $this->kernel->getTestConfig()['aws'];
+        $s3Region = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
+        $lambdaRegion = isset($config['Lambda']['region']) ? $config['Lambda']['region'] : $config['region'];
         $codeDeployRegion = isset($config['CodeDeploy']['region']) ? $config['CodeDeploy']['region'] : $config['region'];
 
         $testService = $this->container->get('test_service');
@@ -87,7 +87,6 @@ final class AwsExtensionTest extends TestCase
             'key' => '@key',
             'secret' => '@secret'
         ], $credentialsArgument);
-
 
     }
 

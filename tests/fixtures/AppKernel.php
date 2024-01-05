@@ -34,7 +34,6 @@ class AppKernel extends Kernel
         return Yaml::parse(file_get_contents($this->getTestConfigFile('yml')));
     }
 
-
     private function getTestConfigFile($extension)
     {
         return __DIR__ . '/config.' . $extension;

@@ -27,8 +27,8 @@ class TestService
         LambdaClient $lambdaClient,
         CodeDeployClient $codeDeployClient
     ) {
-        $this->s3Client         = $s3Client;
-        $this->lambdaClient     = $lambdaClient;
+        $this->s3Client = $s3Client;
+        $this->lambdaClient = $lambdaClient;
         $this->codeDeployClient = $codeDeployClient;
     }
 

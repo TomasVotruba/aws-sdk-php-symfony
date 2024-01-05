@@ -43,7 +43,6 @@ class AwsExtension extends Extension
         }
     }
 
-
     private function createServiceDefinition($name)
     {
         $clientClass = "Aws\\{$name}\\{$name}Client";
@@ -62,9 +61,9 @@ class AwsExtension extends Extension
         }
 
         return $serviceDefinition
-                ->setFactoryService('aws_sdk')
-                ->setFactoryMethod('createClient')
-                ->setArguments([$name]);
+            ->setFactoryService('aws_sdk')
+            ->setFactoryMethod('createClient')
+            ->setArguments([$name]);
     }
 
     private function inflateServicesInConfig(array &$config)
