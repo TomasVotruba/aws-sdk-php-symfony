@@ -19,8 +19,8 @@ return function (ECSConfig $ecsConfig): void {
         SetList::SPACES,
         SetList::ARRAY,
         SetList::DOCBLOCK,
-        // SetList::NAMESPACES,
-        // SetList::COMMENTS,
-        // SetList::PSR_12,
+        SetList::NAMESPACES,
+        SetList::COMMENTS,
+        SetList::PSR_12,
     ]);
 };

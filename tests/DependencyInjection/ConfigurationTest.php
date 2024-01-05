@@ -13,7 +13,7 @@ class ConfigurationTest extends TestCase
 {
     public function setUp(): void
     {
-        (new Filesystem)
+        (new Filesystem())
             ->remove(implode(DIRECTORY_SEPARATOR, [
                 dirname(__DIR__),
                 'fixtures',

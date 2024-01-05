@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
         if (\method_exists(TreeBuilder::class, '__construct')) {
             $treeBuilder = new TreeBuilder('aws', $treeType);
         } else { // which is not the case for older versions
-            $treeBuilder = new TreeBuilder;
+            $treeBuilder = new TreeBuilder();
             $treeBuilder->root('aws', $treeType);
         }
 

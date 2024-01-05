@@ -52,7 +52,8 @@ final class AwsExtensionTest extends TestCase
     /**
      * @test
      */
-    public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services() {
+    public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services()
+    {
         $testService = $this->container->get('test_service');
 
         $this->assertInstanceOf(S3Client::class, $testService->getS3Client());
@@ -69,7 +70,7 @@ final class AwsExtensionTest extends TestCase
      */
     public function extension_should_escape_strings_that_begin_with_at_sign()
     {
-        $awsExtension = new AwsExtension;
+        $awsExtension = new AwsExtension();
         $config = [
             'credentials' => [
                 'key' => '@@key',
@@ -88,7 +89,6 @@ final class AwsExtensionTest extends TestCase
             'key' => '@key',
             'secret' => '@secret',
         ], $credentialsArgument);
-
     }
 
     /**
@@ -96,7 +96,7 @@ final class AwsExtensionTest extends TestCase
      */
     public function extension_should_expand_service_references()
     {
-        $extension = new AwsExtension;
+        $extension = new AwsExtension();
         $config = [
             'credentials' => '@aws_sdk',
         ];
@@ -119,7 +119,7 @@ final class AwsExtensionTest extends TestCase
     public function extension_should_validate_and_merge_configs()
     {
         putenv('AWS_MERGE_CONFIG=true');
-        $extension = new AwsExtension;
+        $extension = new AwsExtension();
         $config = [
             'credentials' => false,
             'debug' => [
@@ -196,7 +196,7 @@ final class AwsExtensionTest extends TestCase
     public function extension_should_error_merging_unknown_config_options()
     {
         putenv('AWS_MERGE_CONFIG=true');
-        $extension = new AwsExtension;
+        $extension = new AwsExtension();
         $config = [
             'foo' => 'bar',
         ];
