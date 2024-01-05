@@ -18,13 +18,7 @@ class Configuration implements ConfigurationInterface
             $treeType = 'array';
         }
 
-        // Most recent versions of TreeBuilder have a constructor
-        if (\method_exists(TreeBuilder::class, '__construct')) {
-            $treeBuilder = new TreeBuilder('aws', $treeType);
-        } else { // which is not the case for older versions
-            $treeBuilder = new TreeBuilder();
-            $treeBuilder->root('aws', $treeType);
-        }
+        $treeBuilder = new TreeBuilder('aws', $treeType);
 
         // If not AWS_MERGE_CONFIG, return empty, variable TreeBuilder
         if (! $mergeConfig) {

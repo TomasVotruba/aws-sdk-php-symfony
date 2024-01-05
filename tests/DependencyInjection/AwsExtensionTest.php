@@ -35,9 +35,9 @@ final class AwsExtensionTest extends TestCase
     public function testSdkConfigShouldBePassedDirectlyToTheConstructorAndResolvedByTheSdk()
     {
         $config = $this->kernel->getTestConfig()['aws'];
-        $s3Region = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
-        $lambdaRegion = isset($config['Lambda']['region']) ? $config['Lambda']['region'] : $config['region'];
-        $codeDeployRegion = isset($config['CodeDeploy']['region']) ? $config['CodeDeploy']['region'] : $config['region'];
+        $s3Region = $config['S3']['region'] ?? $config['region'];
+        $lambdaRegion = $config['Lambda']['region'] ?? $config['region'];
+        $codeDeployRegion = $config['CodeDeploy']['region'] ?? $config['region'];
 
         $testService = $this->container->get('test_service');
 
@@ -134,7 +134,6 @@ final class AwsExtensionTest extends TestCase
             ],
             'profile' => 'prod',
             'region' => 'us-west-2',
-            'retries' => 5,
             'scheme' => 'http',
             'signature_version' => 'v4',
             'ua_append' => [

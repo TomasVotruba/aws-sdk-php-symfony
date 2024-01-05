@@ -35,12 +35,12 @@ $container->loadFromExtension('aws', [
 ]);
 
 $container
-    ->register('a_service', 'Aws\\Credentials\\Credentials')
+    ->register('a_service', \Aws\Credentials\Credentials::class)
     ->addArgument('a-different-fake-key')
     ->addArgument('a-different-fake-secret');
 
 $container
-    ->register('test_service', 'Aws\\Symfony\\fixtures\\TestService')
+    ->register('test_service', \Aws\Symfony\fixtures\TestService::class)
     ->setPublic(true)
     ->addArgument(new Reference('aws.s3'))
     ->addArgument(new Reference('aws.lambda'))
