@@ -7,7 +7,7 @@ composer.lock
 /vendor/
 
 # Symfony cache
-/var/cache
+/var/
 
 # PHPUnit cache
 .phpunit.result.cache
