@@ -1,6 +1,5 @@
 # AWS Service Provider for Symfony 6/7
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/tomasvotruba/aws-sdk-php-symfony.svg)](https://packagist.org/packages/tomasvotruba/aws-sdk-php-symfony)
 [![Total Downloads](https://img.shields.io/packagist/dt/tomasvotruba/aws-sdk-php-symfony.svg)](https://packagist.org/packages/tomasvotruba/aws-sdk-php-symfony)
 
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
