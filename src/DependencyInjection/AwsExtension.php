@@ -27,12 +27,14 @@ class AwsExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $this->inflateServicesInConfig($config);
 
-        $container
-            ->getDefinition('aws_sdk')
-            ->replaceArgument(0, $config + ['ua_append' => [
+        $definition = $container->getDefinition('aws_sdk');
+
+        $definition->replaceArgument(0, $config + [
+            'ua_append' => [
                 'Symfony/' . Kernel::VERSION,
                 'SYMOD/' . AwsBundle::VERSION,
-            ]]);
+            ],
+        ]);
 
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
             $serviceName = 'aws.' . strtolower($awsService);
@@ -42,7 +44,6 @@ class AwsExtension extends Extension
             $container->setAlias($serviceDefinition->getClass(), $serviceName);
         }
     }
-
 
     private function createServiceDefinition($name)
     {
@@ -62,9 +63,9 @@ class AwsExtension extends Extension
         }
 
         return $serviceDefinition
-                ->setFactoryService('aws_sdk')
-                ->setFactoryMethod('createClient')
-                ->setArguments([$name]);
+            ->setFactoryService('aws_sdk')
+            ->setFactoryMethod('createClient')
+            ->setArguments([$name]);
     }
 
     private function inflateServicesInConfig(array &$config)
@@ -74,11 +75,11 @@ class AwsExtension extends Extension
                 $this->inflateServicesInConfig($value);
             }
 
-            if (is_string($value) && 0 === strpos($value, '@')) {
+            if (is_string($value) && strpos($value, '@') === 0) {
                 // this is either a service reference or a string meant to
                 // start with an '@' symbol. In any case, lop off the first '@'
                 $value = substr($value, 1);
-                if (0 !== strpos($value, '@')) {
+                if (strpos($value, '@') !== 0) {
                     // this is a service reference, not a string literal
                     $value = new Reference($value);
                 }

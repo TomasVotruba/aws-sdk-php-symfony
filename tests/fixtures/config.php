@@ -4,7 +4,7 @@ use Aws\DynamoDb\DynamoDbClient;
 use Symfony\Component\DependencyInjection\Reference;
 
 $container->loadFromExtension('framework', [
-    'secret' =>  'Rosebud was the name of his sled.',
+    'secret' => 'Rosebud was the name of his sled.',
 ]);
 
 $container->loadFromExtension('aws', [
@@ -14,19 +14,19 @@ $container->loadFromExtension('aws', [
         'key' => 'not-a-real-key',
         'secret' => '@@not-a-real-secret', // this will be escaped as '@not-a-real-secret'
     ],
-    'DynamoDb' =>[
+    'DynamoDb' => [
         'region' => 'us-west-2',
     ],
     'S3' => [
         'version' => '2006-03-01',
     ],
     'Lambda' => [
-        'region' => 'us-central-1'
+        'region' => 'us-central-1',
     ],
     'CodeDeploy' => [
-        'region' => 'us-west-2'
+        'region' => 'us-west-2',
     ],
-    'Sqs' =>[
+    'Sqs' => [
         'credentials' => new Reference('a_service'), // '@a_service' would also work in a PHP config
     ],
     'CloudSearchDomain' => [

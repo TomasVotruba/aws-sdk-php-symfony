@@ -22,12 +22,12 @@ class Configuration implements ConfigurationInterface
         if (\method_exists(TreeBuilder::class, '__construct')) {
             $treeBuilder = new TreeBuilder('aws', $treeType);
         } else { // which is not the case for older versions
-            $treeBuilder = new TreeBuilder;
+            $treeBuilder = new TreeBuilder();
             $treeBuilder->root('aws', $treeType);
         }
 
         // If not AWS_MERGE_CONFIG, return empty, variable TreeBuilder
-        if (!$mergeConfig) {
+        if (! $mergeConfig) {
             return $treeBuilder;
         }
 
@@ -41,25 +41,64 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->ignoreExtraKeys(false)
             ->children()
+            ->variableNode('credentials')->end()
+            ->variableNode('debug')->end()
+            ->variableNode('stats')->end()
+            ->scalarNode('endpoint')->end()
+            ->variableNode('endpoint_discovery')->end()
+            ->arrayNode('http')
+            ->children()
+            ->floatNode('connect_timeout')->end()
+            ->booleanNode('debug')->end()
+            ->booleanNode('decode_content')->end()
+            ->integerNode('delay')->end()
+            ->variableNode('expect')->end()
+            ->variableNode('proxy')->end()
+            ->scalarNode('sink')->end()
+            ->booleanNode('synchronous')->end()
+            ->booleanNode('stream')->end()
+            ->floatNode('timeout')->end()
+            ->scalarNode('verify')->end()
+            ->end()
+            ->end()
+            ->scalarNode('profile')->end()
+            ->scalarNode('region')->end()
+            ->integerNode('retries')->end()
+            ->scalarNode('scheme')->end()
+            ->scalarNode('service')->end()
+            ->scalarNode('signature_version')->end()
+            ->variableNode('ua_append')->end()
+            ->variableNode('validate')->end()
+            ->scalarNode('version')->end()
+            ->end()
+        ;
+
+        //Setup config trees for each of the services
+        foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
+            $rootNode
+                ->children()
+                ->arrayNode($awsService)
+                ->ignoreExtraKeys(false)
+                ->children()
                 ->variableNode('credentials')->end()
                 ->variableNode('debug')->end()
                 ->variableNode('stats')->end()
                 ->scalarNode('endpoint')->end()
                 ->variableNode('endpoint_discovery')->end()
                 ->arrayNode('http')
-                    ->children()
-                        ->floatNode('connect_timeout')->end()
-                        ->booleanNode('debug')->end()
-                        ->booleanNode('decode_content')->end()
-                        ->integerNode('delay')->end()
-                        ->variableNode('expect')->end()
-                        ->variableNode('proxy')->end()
-                        ->scalarNode('sink')->end()
-                        ->booleanNode('synchronous')->end()
-                        ->booleanNode('stream')->end()
-                        ->floatNode('timeout')->end()
-                        ->scalarNode('verify')->end()
-                    ->end()
+                ->children()
+                ->floatNode('connect_timeout')->end()
+                ->booleanNode('debug')->end()
+                ->booleanNode('decode_content')->end()
+                ->integerNode('delay')->end()
+                ->variableNode('expect')->end()
+                ->variableNode('proxy')->end()
+                ->scalarNode('sink')->end()
+                ->booleanNode('synchronous')->end()
+                ->booleanNode('stream')->end()
+                ->floatNode('timeout')->end()
+                ->scalarNode('verify')->end()
+                ->end()
                 ->end()
                 ->scalarNode('profile')->end()
                 ->scalarNode('region')->end()
@@ -70,47 +109,8 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('ua_append')->end()
                 ->variableNode('validate')->end()
                 ->scalarNode('version')->end()
-            ->end()
-        ;
-
-        //Setup config trees for each of the services
-        foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
-            $rootNode
-                ->children()
-                    ->arrayNode($awsService)
-                        ->ignoreExtraKeys(false)
-                        ->children()
-                            ->variableNode('credentials')->end()
-                            ->variableNode('debug')->end()
-                            ->variableNode('stats')->end()
-                            ->scalarNode('endpoint')->end()
-                            ->variableNode('endpoint_discovery')->end()
-                            ->arrayNode('http')
-                                ->children()
-                                    ->floatNode('connect_timeout')->end()
-                                    ->booleanNode('debug')->end()
-                                    ->booleanNode('decode_content')->end()
-                                    ->integerNode('delay')->end()
-                                    ->variableNode('expect')->end()
-                                    ->variableNode('proxy')->end()
-                                    ->scalarNode('sink')->end()
-                                    ->booleanNode('synchronous')->end()
-                                    ->booleanNode('stream')->end()
-                                    ->floatNode('timeout')->end()
-                                    ->scalarNode('verify')->end()
-                                ->end()
-                            ->end()
-                            ->scalarNode('profile')->end()
-                            ->scalarNode('region')->end()
-                            ->integerNode('retries')->end()
-                            ->scalarNode('scheme')->end()
-                            ->scalarNode('service')->end()
-                            ->scalarNode('signature_version')->end()
-                            ->variableNode('ua_append')->end()
-                            ->variableNode('validate')->end()
-                            ->scalarNode('version')->end()
-                        ->end()
-                    ->end()
+                ->end()
+                ->end()
                 ->end()
             ;
         }

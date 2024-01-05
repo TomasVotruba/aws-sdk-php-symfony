@@ -8,27 +8,28 @@ use Aws\S3\S3Client;
 
 class TestService
 {
-    /** @var S3Client */
+    /**
+     * @var S3Client
+     */
     protected $s3Client;
 
-    /** @var LambdaClient */
+    /**
+     * @var LambdaClient
+     */
     protected $lambdaClient;
 
-    /** @var CodeDeployClient */
+    /**
+     * @var CodeDeployClient
+     */
     protected $codeDeployClient;
 
-    /**
-     * @param S3Client $s3Client
-     * @param LambdaClient $lambdaClient
-     * @param CodeDeployClient $codeDeployClient
-     */
     public function __construct(
         S3Client $s3Client,
         LambdaClient $lambdaClient,
         CodeDeployClient $codeDeployClient
     ) {
-        $this->s3Client         = $s3Client;
-        $this->lambdaClient     = $lambdaClient;
+        $this->s3Client = $s3Client;
+        $this->lambdaClient = $lambdaClient;
         $this->codeDeployClient = $codeDeployClient;
     }
 
@@ -64,7 +65,7 @@ class TestService
         return [
             $this->s3Client,
             $this->lambdaClient,
-            $this->codeDeployClient
+            $this->codeDeployClient,
         ];
     }
 }

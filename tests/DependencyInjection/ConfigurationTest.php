@@ -1,4 +1,5 @@
 <?php
+
 namespace Aws\Symfony\DependencyInjection;
 
 use AppKernel;
@@ -10,9 +11,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigurationTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
-        (new Filesystem)
+        (new Filesystem())
             ->remove(implode(DIRECTORY_SEPARATOR, [
                 dirname(__DIR__),
                 'fixtures',
@@ -22,12 +23,11 @@ class ConfigurationTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider formatProvider
      *
      * @param string $format
      */
-    public function container_should_compile_and_load($format)
+    public function testContainerShouldCompileAndLoad($format)
     {
         $kernel = new AppKernel('test', true, $format);
         $kernel->boot();
