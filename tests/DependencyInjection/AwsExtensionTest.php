@@ -70,10 +70,12 @@ final class AwsExtensionTest extends TestCase
     public function extension_should_escape_strings_that_begin_with_at_sign()
     {
         $awsExtension = new AwsExtension;
-        $config = ['credentials' => [
-            'key' => '@@key',
-            'secret' => '@@secret'
-        ]];
+        $config = [
+            'credentials' => [
+                'key' => '@@key',
+                'secret' => '@@secret',
+            ],
+        ];
 
         $containerBuilder = new ContainerBuilder();
 
@@ -84,7 +86,7 @@ final class AwsExtensionTest extends TestCase
 
         $this->assertSame([
             'key' => '@key',
-            'secret' => '@secret'
+            'secret' => '@secret',
         ], $credentialsArgument);
 
     }
@@ -95,7 +97,9 @@ final class AwsExtensionTest extends TestCase
     public function extension_should_expand_service_references()
     {
         $extension = new AwsExtension;
-        $config = ['credentials' => '@aws_sdk'];
+        $config = [
+            'credentials' => '@aws_sdk',
+        ];
 
         $containerBuilder = new ContainerBuilder();
         $extension->load([$config], $containerBuilder);
@@ -119,16 +123,16 @@ final class AwsExtensionTest extends TestCase
         $config = [
             'credentials' => false,
             'debug' => [
-                'http' => true
+                'http' => true,
             ],
             'stats' => [
-                'http' => true
+                'http' => true,
             ],
             'retries' => 5,
             'endpoint' => 'http://localhost:8000',
             'endpoint_discovery' => [
                 'enabled' => true,
-                'cache_limit' => 1000
+                'cache_limit' => 1000,
             ],
             'http' => [
                 'connect_timeout' => 5.5,
@@ -141,7 +145,7 @@ final class AwsExtensionTest extends TestCase
                 'synchronous' => true,
                 'stream' => true,
                 'timeout' => 3.14,
-                'verify' => '/path/to/ca_cert_bundle'
+                'verify' => '/path/to/ca_cert_bundle',
             ],
             'profile' => 'prod',
             'region' => 'us-west-2',
@@ -150,15 +154,15 @@ final class AwsExtensionTest extends TestCase
             'signature_version' => 'v4',
             'ua_append' => [
                 'prod',
-                'foo'
+                'foo',
             ],
             'validate' => [
-                'required' => true
+                'required' => true,
             ],
             'version' => 'latest',
             'S3' => [
                 'version' => '2006-03-01',
-            ]
+            ],
         ];
         $configDev = [
             'credentials' => '@aws_sdk',
@@ -194,10 +198,10 @@ final class AwsExtensionTest extends TestCase
         putenv('AWS_MERGE_CONFIG=true');
         $extension = new AwsExtension;
         $config = [
-            'foo' => 'bar'
+            'foo' => 'bar',
         ];
         $configDev = [
-            'foo' => 'baz'
+            'foo' => 'baz',
         ];
 
         $containerMock = $this->createMock(ContainerBuilder::class);

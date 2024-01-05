@@ -29,10 +29,12 @@ class AwsExtension extends Extension
 
         $container
             ->getDefinition('aws_sdk')
-            ->replaceArgument(0, $config + ['ua_append' => [
-                'Symfony/' . Kernel::VERSION,
-                'SYMOD/' . AwsBundle::VERSION,
-            ]]);
+            ->replaceArgument(0, $config + [
+                'ua_append' => [
+                    'Symfony/' . Kernel::VERSION,
+                    'SYMOD/' . AwsBundle::VERSION,
+                ],
+            ]);
 
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
             $serviceName = 'aws.' . strtolower($awsService);

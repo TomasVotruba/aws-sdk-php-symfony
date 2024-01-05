@@ -65,7 +65,7 @@ class TestService
         return [
             $this->s3Client,
             $this->lambdaClient,
-            $this->codeDeployClient
+            $this->codeDeployClient,
         ];
     }
 }

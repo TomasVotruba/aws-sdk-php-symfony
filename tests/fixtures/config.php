@@ -21,10 +21,10 @@ $container->loadFromExtension('aws', [
         'version' => '2006-03-01',
     ],
     'Lambda' => [
-        'region' => 'us-central-1'
+        'region' => 'us-central-1',
     ],
     'CodeDeploy' => [
-        'region' => 'us-west-2'
+        'region' => 'us-west-2',
     ],
     'Sqs' => [
         'credentials' => new Reference('a_service'), // '@a_service' would also work in a PHP config
