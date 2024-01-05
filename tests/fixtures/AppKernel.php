@@ -8,11 +8,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class AppKernel extends Kernel
 {
-    private $extension;
-
-    public function __construct($env, $debug, $extension = 'yml')
-    {
-        $this->extension = $extension;
+    public function __construct(
+        $env,
+        $debug,
+        private $extension = 'yml'
+    ) {
         parent::__construct($env, $debug);
     }
 
