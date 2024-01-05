@@ -1,5 +1,5 @@
 {
-    "name": "aws/aws-sdk-php-symfony",
+    "name": "tomasvotruba/aws-sdk-php-symfony",
     "description": "A Symfony bundle for v3 of the AWS SDK for PHP",
     "keywords": [ "aws", "amazon", "symfony", "symfony2", "symfony3", "sdk"],
     "type": "symfony-bundle",
