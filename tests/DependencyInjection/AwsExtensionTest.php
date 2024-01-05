@@ -70,30 +70,25 @@ class AwsExtensionTest extends TestCase
      */
     public function extension_should_escape_strings_that_begin_with_at_sign()
     {
-        $extension = new AwsExtension;
+        $awsExtension = new AwsExtension;
         $config = ['credentials' => [
             'key' => '@@key',
             'secret' => '@@secret'
         ]];
 
-        $containerMock = $this->createMock(ContainerBuilder::class);
+        $containerBuilder = new ContainerBuilder();
 
-        $containerMock->expects($this->once())
-            ->method('getDefinition')
-            ->with('aws_sdk')
-            ->willReturnSelf();
-        $containerMock->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, $this->callback(function ($arg) {
-                return is_array($arg)
-                    && isset($arg['credentials'])
-                    && $arg['credentials'] === [
-                        'key' => '@key',
-                        'secret' => '@secret'
-                    ];
-            }));
+        $awsExtension->load([$config], $containerBuilder);
 
-        $extension->load([$config], $containerMock);
+        $awsSdkDefinition = $containerBuilder->getDefinition('aws_sdk');
+        $credentialsArgument = $awsSdkDefinition->getArguments()[0]['credentials'];
+
+        $this->assertSame([
+            'key' => '@key',
+            'secret' => '@secret'
+        ], $credentialsArgument);
+
+
     }
 
     /**
